@@ -1,20 +1,16 @@
-import sys
-
-import pygame, sys
-
+import pygame
+from settings import *
+from tiles import Tile
 pygame.init()
-screen_width = 1200
-screen_height = 700
 screen = pygame.display.set_mode((screen_width, screen_height))
 clock = pygame.time.Clock()
-
-while True:
+pygame.display.set_caption('celeste clone')
+runs = True
+while runs:
     for event in pygame.event.get():
-        if event.type == pygame.quit():
-            pygame.quit()
-            sys.exit()
+        if event.type == pygame.QUIT:
+            runs = False
 
     screen.fill('black')
-
-    pygame.display.update()
+    pygame.display.flip()
     clock.tick(60)
