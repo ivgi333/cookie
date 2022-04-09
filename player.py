@@ -24,6 +24,7 @@ class Player(pygame.sprite.Sprite):
         self.on_ceiling = False
         self.on_left = False
         self.on_right = False
+        self.double_jump = False
 
     def import_character_assets(self):
         character_path = './graphics/character/'
@@ -67,8 +68,12 @@ class Player(pygame.sprite.Sprite):
         else:
             self.direction.x = 0
 
-        if keys[pygame.K_SPACE]:
+        if keys[pygame.K_SPACE] and self.on_ground:
             self.jump()
+            self.double_jump = True
+        elif keys[pygame.K_SPACE] and self.double_jump and self.direction.y > -8:
+            self.jump()
+            self.double_jump = False
 
     def get_status(self):
         if self.direction.y < 0:
@@ -87,7 +92,6 @@ class Player(pygame.sprite.Sprite):
 
     def jump(self):
         self.direction.y = self.jump_speed
-
 
     def update(self):
         self.get_input()
