@@ -3,7 +3,8 @@ from tiles import Tile
 from settings import tile_size, screen_width
 from player import Player
 from particles import ParticleEffect
-
+import os
+import sys
 class Level:
     def __init__(self,level_data,surface):
 
@@ -12,7 +13,7 @@ class Level:
         self.setup_level(level_data)
         self.world_shift = 0
         self.current_x = 0
-
+        self.rest_player = 0
         #dust
         self.dust_sprite = pygame.sprite.GroupSingle()
         self.player_on_ground = False
@@ -108,6 +109,12 @@ class Level:
             if player.on_ceiling and player.direction.y > 0:
                 player.on_ceiling = False
 
+            if player.on_ground == False:
+                self.rest_player += 1
+            else:
+                self.rest_player = 0
+            if self.rest_player == 15000:
+                os.execl(sys.executable, '"{}"'.format(sys.executable), *sys.argv)
     def run(self):
         #dust particles
         self.dust_sprite.update(self.world_shift)
